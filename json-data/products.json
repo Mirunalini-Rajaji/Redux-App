@@ -1,0 +1,27 @@
+{
+  "allProducts": [
+    
+      {
+        "id": 6,
+        "name": "aaaa",
+        "price": 100,
+        "quantity": "11",
+        "category": "ddddd"
+      },
+      {
+        "id": 7,
+        "name": "zzzz",
+        "price": "120",
+        "quantity": "1",
+        "category": "ddddd"
+      },
+      {
+        "id": 10,
+        "name": "rrr",
+        "price": "10",
+        "quantity": "4",
+        "category": "accss"
+      }
+    
+  ]
+}
