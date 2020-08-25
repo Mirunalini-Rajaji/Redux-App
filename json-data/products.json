@@ -1,27 +1,52 @@
 {
   "allProducts": [
-    
-      {
-        "id": 6,
-        "name": "aaaa",
-        "price": 100,
-        "quantity": "11",
-        "category": "ddddd"
-      },
-      {
-        "id": 7,
-        "name": "zzzz",
-        "price": "120",
-        "quantity": "1",
-        "category": "ddddd"
-      },
-      {
-        "id": 10,
-        "name": "rrr",
-        "price": "10",
-        "quantity": "4",
-        "category": "accss"
-      }
-    
+    {
+      "id": 2,
+      "image": "bag.jpeg",
+      "name": "Handbag",
+      "price": 2000,
+      "quantity": 3,
+      "category": "Dress",
+      "manufacturer": "Nokia pvt",
+      "supplier": "poorvika",
+      "stock": "instock",
+      "rating": 4
+    },
+    {
+      "id": 1,
+      "image": "earphone.jpg",
+      "name": "sumsung a2",
+      "price": 2000,
+      "quantity": 3,
+      "category": "Electronics",
+      "manufacturer": "Nokia pvt",
+      "supplier": "poorvika",
+      "stock": "outofStock",
+      "rating": 4
+    },
+    {
+      "id": 4,
+      "image": "toys.jpg",
+      "name": "car",
+      "price": "1",
+      "quantity": "1",
+      "category": "Toys",
+      "manufacturer": "ww",
+      "supplier": "ww",
+      "stock": "instock",
+      "rating": "5"
+    },
+    {
+      "id": 5,
+      "image": "mobile.jpg",
+      "name": "honor",
+      "price": "20000",
+      "quantity": "3",
+      "category": "Mobiles",
+      "manufacturer": "Hauwei",
+      "supplier": "Poorvika",
+      "stock": "outofStock",
+      "rating": "5"
+    }
   ]
 }

@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import {bindActionCreators} from 'redux';
 import updateProductBroadCast from '../actions/updateProductBroadCast'
+import Axios from 'axios';
 
 class EditProduct extends React.Component {
     constructor(props) {
@@ -9,11 +10,7 @@ class EditProduct extends React.Component {
        
         this.state = {
             
-        //    id:0,
-        //    name:'',
-        //    price:0,
-        //    quanity:0,
-        //    category:'',
+       
             status: '',
             nameerror: '',
            buttonStatus:false
@@ -28,6 +25,7 @@ componentWillMount(){
         this.setState({
             id: productToUpdate.id,
             name: productToUpdate.name,
+            image:productToUpdate.image,
             price: productToUpdate.price,
             quantity: productToUpdate.quantity,
             category: productToUpdate.category,
@@ -66,6 +64,9 @@ componentWillMount(){
         this.setState({ price: event.target.value })
 
     }
+    getImage=(event)=>{
+        this.setState({image:event.target.value.substr(12)})
+    }
     getQuantity = (event) => {
         this.setState({ quantity: event.target.value })
 
@@ -101,7 +102,7 @@ componentWillMount(){
         e.preventDefault();
         let productRequest = {
             id: this.state.id,
-            
+            image:this.state.image,
             name: this.state.name,
             price: this.state.price,
             quantity: this.state.quantity,
@@ -112,9 +113,15 @@ componentWillMount(){
             rating:this.state.rating
 
         }
-        console.log(productRequest)
-        this.props.setEditProducts(productRequest)
-        this.props.history.push('/')
+        Axios.put("http://localhost:3000/allProducts/" + this.state.id, productRequest)
+        .then(response => {
+            console.log(response)
+            this.props.setEditProducts(productRequest)
+            this.props.history.push('/')
+        })
+       
+        
+       
       
 
         // Axios.put("http://localhost:3000/allProducts/" + this.state.id, productRequest)
@@ -188,7 +195,8 @@ componentWillMount(){
                             <label >Ratings </label>
                             <input type="number" value={this.state.rating} onChange={this.getRating}  style={{ marginLeft: '38px' }}  min='1' max='5' required></input>
                             <br></br>
-
+                            <label>Image</label>
+                            <input type="file" onChange={this.getImage} style={{ marginLeft: '47px' }} multiple accept='image/*'></input><br></br>
                             <button type="submit" disabled={this.state.buttonStatus}>Update</button><br></br>
                         </center>
                    
