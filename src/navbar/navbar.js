@@ -6,10 +6,14 @@ class Navbar extends React.Component {
     render() { 
         return ( 
             <div className="header">
-                <a href="/" className="logo">Inventory</a>
+                <Link to="/" className="logo">Inventory</Link>
+        
                 <div className="header-right">
+                <Link to='/dashboard'>DashBoard</Link>
+                <Link to="/product">Products</Link>
                 <Link to="/addProduct" >AddProducts</Link>
-                <Link to="/">Products</Link>
+                
+               
                
                 </div>
                 {/* <ul>

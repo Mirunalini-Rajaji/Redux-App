@@ -5,6 +5,7 @@ import viewProductBroadCast from '../actions/viewProductBroadCast';
 import searchProductBroadCast from '../actions/searchProductBroadCast';
 import '../css/style.css'
 import Axios from 'axios';
+import Navbar from '../navbar/navbar';
 
 class Product extends React.Component {
     constructor(props) {
@@ -12,7 +13,8 @@ class Product extends React.Component {
         this.state = {
             products: [],
             myid: 0,
-            searchValue: ''
+            searchValue: '',
+            sortvalue:false
         }
     }
     componentWillMount() {
@@ -75,11 +77,28 @@ class Product extends React.Component {
         let searchF = this.state.products.filter(f => {
             return (f.name.toLowerCase().match(searchV.toLowerCase().trim()) ||
                 f.category.toLowerCase().match(searchV.toLowerCase().trim()))
-
-
         })
         console.log(searchF);
         this.props.setSearch(searchF)
+        this.setState({sortvalue:false})
+    }
+    sortProducts=()=>{
+        const newlist=this.props.allProducts;
+        if(this.state.sortvalue===false){
+            newlist.sort((a,b)=>
+                a.price - b.price)            
+            this.setState({products:newlist})
+            return this.setState({sortvalue:true})
+        }
+        if(this.state.sortvalue===true){
+           
+            newlist.sort((a,b)=>
+            b.price - a.price)            
+        this.setState({products:newlist})
+            // this.getAllProducts()
+            return this.setState({sortvalue:false})
+        }
+
     }
 
     render() {
@@ -87,9 +106,16 @@ class Product extends React.Component {
         return (
 
             <div>
+                <Navbar></Navbar>
                 <input type="text" className="searchBar" style={{ marginTop: '20px' }} placeholder="Search by name or category"
                     value={this.state.searchValue} onChange={this.search}></input>
-                       
+                <button type="submit" className="logo" onClick={this.sortProducts}>Sort by price</button>
+               {/* <select name="sort" onChange={this.sortProducts}>
+                 <option >--Sort--</option>  
+                 <option value="lowPrice" >Low to High</option>
+                 <option value="highPrice">High to Low </option> */}
+                     
+                     {/* </select>      */}
 
                 {this.renderAllProducts()}
 

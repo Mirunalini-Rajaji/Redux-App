@@ -88,8 +88,8 @@ padding: 40px 80px 10px;
   /* .link{
       font-size: 49px;
   } */
-  @media screen and (max-width: 600px) {
-    button[type=submit],input[type=text],[type=password],[type=file],select,form,.link,.div,.chart {
+  @media screen and (max-width: 50px) {
+    button[type=submit],input[type=text],[type=password],[type=file],[type=number],select,form,.link,.div,.chart {
       width: 40%;
       margin-top: 0;
     }
@@ -113,8 +113,8 @@ padding: 40px 80px 10px;
   }
   
 
-  .header a.logo {
-    font-size: 20px;
+  .header .logo {
+    font-size: 25px;
     font-weight: bold;
   }
   

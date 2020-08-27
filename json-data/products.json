@@ -16,7 +16,7 @@
       "id": 1,
       "image": "earphone.jpg",
       "name": "sumsung a2",
-      "price": 2000,
+      "price": "25000",
       "quantity": 3,
       "category": "Electronics",
       "manufacturer": "Nokia pvt",
@@ -28,7 +28,7 @@
       "id": 4,
       "image": "toys.jpg",
       "name": "car",
-      "price": "1",
+      "price": "2001",
       "quantity": "1",
       "category": "Toys",
       "manufacturer": "ww",
@@ -47,6 +47,22 @@
       "supplier": "Poorvika",
       "stock": "outofStock",
       "rating": "5"
+    }
+  ],
+  "users": [
+    {
+      "id": 1,
+      "firstName": "miruna",
+      "lastName": "lini",
+      "email": "miru@gmail.com",
+      "password": "miruna"
+    },
+    {
+      "firstName": "diyaa",
+      "lastName": "diyaa",
+      "password": "dD*12345",
+      "email": "diya@gmail.com",
+      "id": 2
     }
   ]
 }

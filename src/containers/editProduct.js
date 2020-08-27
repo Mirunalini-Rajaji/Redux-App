@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import {bindActionCreators} from 'redux';
 import updateProductBroadCast from '../actions/updateProductBroadCast'
 import Axios from 'axios';
+import Navbar from '../navbar/navbar';
 
 class EditProduct extends React.Component {
     constructor(props) {
@@ -117,7 +118,7 @@ componentWillMount(){
         .then(response => {
             console.log(response)
             this.props.setEditProducts(productRequest)
-            this.props.history.push('/')
+            this.props.history.push('/product')
         })
        
         
@@ -138,12 +139,13 @@ componentWillMount(){
 
     }
     goBack = () => {
-        this.props.history.push('/')
+        this.props.history.push('/product')
     }
     render() {
-        if (this.props.location.state === undefined) {
+        if (this.props.history.location.state === undefined) {
             return (
                 <div>
+                    <Navbar></Navbar>
                     <center>
                         <h3>Product Not Available!!</h3><br></br>
                         <button type="submit" onClick={this.goBack}>Go Back</button>
@@ -153,7 +155,7 @@ componentWillMount(){
         }
         return (
             <div >
-              
+              <Navbar></Navbar>
                 <form onSubmit={this.editProduct}>
                    
                         <center style={{ padding: '20px' }}>
@@ -188,8 +190,8 @@ componentWillMount(){
                             {/* <input type="text" value={this.state.stock} onChange={this.getStock}  style={{ marginLeft: '42px' }} ></input> */}
                             <select defaultValue={this.state.stock} onChange={this.getStock} id="stock" style={{ marginLeft: '47px' }} required>
                             <option value="">Select Stock</option>
-                            <option value="instock">Instock</option>
-                            <option value="outofStock">Out Of stock</option>
+                            <option value="Instock">Instock</option>
+                            <option value="Out Of stock">Out Of stock</option>
                         </select>
                             <br></br>
                             <label >Ratings </label>

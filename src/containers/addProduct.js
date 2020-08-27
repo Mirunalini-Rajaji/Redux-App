@@ -3,6 +3,7 @@ import addProductBroadCast from '../actions/addProductBroadCast';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux'
 import Axios from 'axios';
+import Navbar from '../navbar/navbar';
 
 class AddProduct extends React.Component {
     constructor(props) {
@@ -67,7 +68,7 @@ class AddProduct extends React.Component {
             .then(response => {
                 console.log(response)
                 this.props.setProducts(products)
-                this.props.history.push('/')
+                this.props.history.push('/product')
 
             })
 
@@ -75,6 +76,7 @@ class AddProduct extends React.Component {
     render() {
         return (
             <div>
+                <Navbar></Navbar>
                 <form onSubmit={this.add}>
 
                     <center style={{ padding: '20px' }}>
@@ -94,8 +96,8 @@ class AddProduct extends React.Component {
                         </select><br></br>
                         <select onChange={this.getStock} id="stock" required>
                             <option value="">Select Stock</option>
-                            <option value="instock">Instock</option>
-                            <option value="outofStock">Out Of stock</option>
+                            <option value="Instock">Instock</option>
+                            <option value="Out Of stock">Out Of stock</option>
                         </select><br></br>
                         <input type="number" placeholder="Ratings" onChange={this.getRating} required min='1' max='5'></input><br></br>
                         <input type="file" onChange={this.getImage} required multiple accept='image/*'></input><br></br>
