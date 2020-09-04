@@ -3,7 +3,7 @@ import addProductBroadCast from '../actions/addProductBroadCast';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux'
 import Axios from 'axios';
-import Navbar from '../navbar/navbar';
+
 
 class AddProduct extends React.Component {
     constructor(props) {
@@ -14,11 +14,11 @@ class AddProduct extends React.Component {
             price: 0,
             quantity: 0,
             category: '',
-            manufacturer: '',
-            supplier: '',
-            stock: '',
-            rating: 0,
-            image: ''
+           
+           
+           
+            image: '',
+            producterror:''
         }
     }
     getName = (event) => {
@@ -33,23 +33,14 @@ class AddProduct extends React.Component {
     getCategory = (event) => {
         this.setState({ category: event.target.value })
     }
-    getManufacturer = (event) => {
-        this.setState({ manufacturer: event.target.value })
-    }
-    getSupplier = (event) => {
-        this.setState({ supplier: event.target.value })
-    }
-    getStock = (event) => {
-        this.setState({ stock: event.target.value })
-    }
-    getRating = (event) => {
-        this.setState({ rating: event.target.value })
-    }
+   
+   
+    
     getImage = (event) => {
         this.setState({ image: event.target.value.substr(12) })
         // this.checkImage()
     }
-    add = (e) => {
+    add = async(e) => {
         e.preventDefault();
         let products = {
 
@@ -58,12 +49,21 @@ class AddProduct extends React.Component {
             price: this.state.price,
             quantity: this.state.quantity,
             category: this.state.category,
-            manufacturer: this.state.manufacturer,
-            supplier: this.state.supplier,
-            stock: this.state.stock,
-            rating: this.state.rating
+            
+            
+           
         }
         console.log(products)
+        const data = await Axios.get('http://localhost:3000/allProducts?name=' + this.state.name);
+        
+        if (data.data.length !== 0) {
+           
+            if (this.state.name.toLocaleLowerCase() === data.data[0].name.toLocaleLowerCase()) {
+                // alert("product is already added")
+                let producterror="* Product already added"
+                this.setState({productError:producterror})
+            }
+        } else
         Axios.post("http://localhost:3000/allProducts", products)
             .then(response => {
                 console.log(response)
@@ -76,17 +76,16 @@ class AddProduct extends React.Component {
     render() {
         return (
             <div>
-                <Navbar></Navbar>
+               
                 <form onSubmit={this.add}>
 
                     <center style={{ padding: '20px' }}>
                         <h2>Add Product</h2>
+                        <div className="error">{this.state.productError}</div>
                         <input type="text" placeholder="Product Name" onChange={this.getName} required></input><br></br>
                         <input type="number" placeholder="Price" onChange={this.getPrice} required min='1'></input><br></br>
                         <input type="number" placeholder="Quantity" onChange={this.getQuantity} required min='1'></input><br></br>
-                        <input type="text" placeholder="Manufacturer" onChange={this.getManufacturer} required></input><br></br>
-                        <input type="text" placeholder="Supplier" onChange={this.getSupplier} required></input><br></br>
-
+                       
                         <select onChange={this.getCategory} id="category" required>
                             <option value="">Select Category</option>
                             <option value="Mobiles">Mobiles</option>
@@ -94,12 +93,7 @@ class AddProduct extends React.Component {
                             <option value="Dress">Dress</option>
                             <option value="Toys">Toys</option>
                         </select><br></br>
-                        <select onChange={this.getStock} id="stock" required>
-                            <option value="">Select Stock</option>
-                            <option value="Instock">Instock</option>
-                            <option value="Out Of stock">Out Of stock</option>
-                        </select><br></br>
-                        <input type="number" placeholder="Ratings" onChange={this.getRating} required min='1' max='5'></input><br></br>
+                        
                         <input type="file" onChange={this.getImage} required multiple accept='image/*'></input><br></br>
                         <button type="submit">Add</button>
                     </center>

@@ -5,7 +5,8 @@ import viewProductBroadCast from '../actions/viewProductBroadCast';
 import searchProductBroadCast from '../actions/searchProductBroadCast';
 import '../css/style.css'
 import Axios from 'axios';
-import Navbar from '../navbar/navbar';
+
+import Pagination from './pagination';
 
 class Product extends React.Component {
     constructor(props) {
@@ -14,7 +15,9 @@ class Product extends React.Component {
             products: [],
             myid: 0,
             searchValue: '',
-            sortvalue:false
+            sortvalue:false,
+            currentPage:1,
+            postPerPage:3
         }
     }
     componentWillMount() {
@@ -46,17 +49,20 @@ class Product extends React.Component {
             state: id
         })
     }
-    renderAllProducts = () => {
-        return this.props.allProducts.map(product => {
+    renderAllProducts = () => { const indexOfLastProd = this.state.currentPage*this.state.postPerPage;
+        const indexOfFirstProd = indexOfLastProd-this.state.postPerPage;
+        const currentProd = this.props.allProducts.slice(indexOfFirstProd,indexOfLastProd);
+        return currentProd.map(product => {
             return (
                 <div className="row">
                     <div className="column">
-                        <div className="card" key={product.id}>
+                        <div className="card" >
+                            
                             <img src={"images/" + product.image} height="170px" width="170px" alt="profile"></img>
                             <h2>{product.name}</h2>
                             <h4>Price :{product.price}</h4>
                             <h4>Quantity:{product.quantity}</h4>
-                            <h4>{product.stock}</h4>
+                            <h4>Category:{product.category}</h4>
                             <button onClick={() => this.editProductById(product.id)}>Edit</button>
                             <button onClick={() => this.deleteProductById(product.id)}>Delete</button>
                         </div>
@@ -75,8 +81,8 @@ class Product extends React.Component {
         this.setState({ searchValue: searchV })
         console.log(searchV);
         let searchF = this.state.products.filter(f => {
-            return (f.name.toLowerCase().match(searchV.toLowerCase().trim()) ||
-                f.category.toLowerCase().match(searchV.toLowerCase().trim()))
+            return f.name.toLowerCase().match(searchV.toLowerCase().trim())
+               
         })
         console.log(searchF);
         this.props.setSearch(searchF)
@@ -100,25 +106,22 @@ class Product extends React.Component {
         }
 
     }
+    paginate=(pages)=>{
+        this.setState({currentPage:pages})
+    } 
 
     render() {
 
         return (
 
             <div>
-                <Navbar></Navbar>
+                
                 <input type="text" className="searchBar" style={{ marginTop: '20px' }} placeholder="Search by name or category"
                     value={this.state.searchValue} onChange={this.search}></input>
                 <button type="submit" className="logo" onClick={this.sortProducts}>Sort by price</button>
-               {/* <select name="sort" onChange={this.sortProducts}>
-                 <option >--Sort--</option>  
-                 <option value="lowPrice" >Low to High</option>
-                 <option value="highPrice">High to Low </option> */}
-                     
-                     {/* </select>      */}
-
+               
                 {this.renderAllProducts()}
-
+                <Pagination prodPerPage={this.state.postPerPage} totalProd={this.props.allProducts.length} paginate={this.paginate}></Pagination>
 
             </div>
 

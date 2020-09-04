@@ -5,7 +5,7 @@ import axios from 'axios';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import viewProductBroadCast from '../actions/viewProductBroadCast';
-import Navbar from '../navbar/navbar';
+
 
 
 
@@ -19,9 +19,7 @@ class Dashboard extends React.Component {
         unique: [],
         filter: [],
 
-        chatData: [
-            ["productName", "quantity"]
-        ],
+       
         barData: [
             ["Category", "quantity"]
         ]
@@ -41,8 +39,7 @@ class Dashboard extends React.Component {
 
 
                 this.state.products.map(pr => {
-                    return this.state.chatData.push([pr.name, parseInt(pr.quantity)]) &&
-                        myarray.push(pr.category)
+                    return  myarray.push(pr.category)
 
                 })
                 unique = myarray.filter((v, i, a) => a.indexOf(v) === i);
@@ -74,7 +71,7 @@ class Dashboard extends React.Component {
     render() {
         return (
             <div>
-              <Navbar></Navbar>
+            
                 <div >
 
                     <div className="containerd" style={{ padding: '100px', height: '100%', marginTop: '0px', alignContent: 'center' }} >
@@ -89,17 +86,7 @@ class Dashboard extends React.Component {
                             rootProps={{ 'data-testid': '1' }}>
                         </Chart>
 
-                        <Chart
-                            width="80%"
-                            height={'300px'}
-                            chartType="Histogram"
-                            data={this.state.chatData}
-                            options={{
-                                title: 'Product Details',
-                                legend: { position: 'none' },
-                            }}
-                            rootProps={{ 'data-testid': '1' }}>
-                        </Chart>
+                       
                     </div>
 
                 </div>

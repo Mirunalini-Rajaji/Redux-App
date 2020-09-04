@@ -1,5 +1,4 @@
 import React from 'react';
-import {Link} from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux'
 import Axios from 'axios';
@@ -11,13 +10,14 @@ class SignUp extends React.Component {
         this.state = {
             firstName: '',
             lastName:'',
-            password:'',
-            email:'',
+            pwd:'',
+            emailAddress:'',
             Fnameerror:'',
             Lnameerror:'',
             emailerror:'',
             pwderror:'',
             success:false,
+            verifyerror:''
         }
     }
     getFName = (event) => {
@@ -33,11 +33,11 @@ class SignUp extends React.Component {
         this.checkLname()
     }
     getPwd = (event) => {
-        this.setState({ password: event.target.value })
+        this.setState({ pwd: event.target.value })
         this.checkPwd()
     }
     getEmail = (event) => {
-        this.setState({ email: event.target.value })
+        this.setState({ emailAddress: event.target.value })
         this.checkEmail()
     }
     checkFname = () => {
@@ -62,7 +62,7 @@ class SignUp extends React.Component {
     }
     checkEmail = () => {
         let emailerror = ''
-        if (this.state.email.length <= 3) {
+        if (this.state.emailAddress.length <= 3) {
             emailerror = "* Email must be abc@example.com"
             this.setState({ emailError: emailerror })
         }
@@ -72,7 +72,7 @@ class SignUp extends React.Component {
     }
     checkPwd = () => {
         let pwderror = ''
-        if (this.state.password.length <= 4) {
+        if (this.state.pwd.length <= 4) {
             pwderror = "* Password must have one  number and one uppercase and lowercase letter, and greater than 5 character"
             this.setState({ pwdError: pwderror })
         }
@@ -81,26 +81,35 @@ class SignUp extends React.Component {
         }
     }
   
-    signUp = (e) => {
+    signUp = async (e) => {
         e.preventDefault();
         let user = {
 
             firstName: this.state.firstName,
             lastName: this.state.lastName,
-            password: this.state.password,
-            email: this.state.email
+            pwd: this.state.pwd,
+            emailAddress: this.state.emailAddress
             
         }
-      if(this.state.fNameError===''&& this.state.lNameError===''&&this.state.emailError===''&&this.state.pwdError===''){
-        Axios.post("http://localhost:3000/users", user)
+        const data = await Axios.get('http://localhost:4000/newuser?emailAddress=' + this.state.emailAddress);
+        if (data.data.length !== 0) {
+            if (this.state.emailAddress === data.data[0].emailAddress) {
+                // alert("email Address is already registered")
+                let verifyerror="* Email address is already registered"
+                this.setState({verifyError:verifyerror})
+            }
+        } else if(this.state.fNameError===''&& this.state.lNameError===''&&this.state.emailError===''&&this.state.pwdError===''){
+        Axios.post("http://localhost:4000/newuser", user)
             .then(response => {
                 console.log(response)
+                
                 this.props.setUser(user)
                 this.setState({success:true})
                 
 
             })
       }
+    
     }
     continue=()=>{
         this.props.history.push('/')
@@ -109,8 +118,7 @@ class SignUp extends React.Component {
         if(this.state.success){
             return (
                 <div>
-                <div className="header">
-                    <Link to="/" className="logo">Inventory</Link> </div>
+               
                     <div style={{ textAlign: 'center', paddingTop: '50px'}}>
                         <h3>Account Created Successfully!!</h3>
                         <h4>Click continue to Login</h4>
@@ -121,10 +129,7 @@ class SignUp extends React.Component {
         }
         return (
             <div>
-                 <div className="header">
-
-                    <Link to="/" className="logo">Inventory</Link>
-                </div>
+                
                 <form onSubmit={this.signUp}>
 
                     <center style={{ padding: '20px' }}>
@@ -135,6 +140,7 @@ class SignUp extends React.Component {
                         <div>{this.state.lNameError}</div>
                         <input type="text" placeholder="Email Address" onChange={this.getEmail} pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" required></input><br></br>
                         <div>{this.state.emailError}</div>
+                        <div className="error">{this.state.verifyError}</div>
                         <input type="password" placeholder="Password" onChange={this.getPwd} pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" required></input><br></br>
                         <div>{this.state.pwdError}</div>
 
